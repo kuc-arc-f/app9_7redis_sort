@@ -1,0 +1,45 @@
+<div id="app">
+    <h1>Login</h1>
+    <hr />
+    <div class="form-group">
+            <label for="TopicTitle">mail :</label>
+            <input type="text" class="form-control" v-model="mail">
+        </div>
+        <div class="form-group">
+            <label for="TopicContent">password :</label>
+            <input type="password" class="form-control" v-model="password">
+        </div>
+        <button v-on:click="send_post">ログイン</button>
+</div>
+
+<!-- -->
+<script>
+new Vue({
+    el: '#app',
+    created () {
+    },    
+    data: {
+        mail:'',
+        password:''        
+    },
+    methods: {
+        send_post(){
+            var task = {
+                'mail': this.mail,
+                'password': this.password
+            };
+// console.log(task );
+            axios.post('/login' , task ).then(res => {
+                console.log(res.data );
+                if(res.data.ret === 1){
+                    alert("OK , CSRF");
+                    window.location.href = "/"
+                }else{
+                    alert("Error, CSRF token");
+                }
+            });
+        },        
+    }
+
+});    
+</script>
